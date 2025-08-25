@@ -589,7 +589,7 @@
                 html.setAttribute('data-theme', 'dark');
             } else if (currentTheme === 'dark') {
                 // 移除手动设置，回到系统主题
-                html.removeAttribute('data-theme', 'light');
+                html.removeAttribute('data-theme');
             } else {
                 // 当前是系统主题，设置为相反的主题
                 const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
