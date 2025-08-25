@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Name - Academic Homepage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,6 +22,8 @@
             --link-visited: #8b008b;
             --border-color: #e0e0e0;
             --nav-bg: #f8f9fa;
+            --nav-glass-bg: rgba(248, 249, 250, 0.2);
+            --nav-glass-border: rgba(255, 255, 255, 0.6);
         }
 
         [data-theme="dark"] {
@@ -29,10 +34,12 @@
             --link-visited: #c266c2;
             --border-color: #333333;
             --nav-bg: #2d2d2d;
+            --nav-glass-bg: rgba(45, 45, 45, 0.2);
+            --nav-glass-border: rgba(255, 255, 255, 0.3);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Ubuntu, Roboto, Noto, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
@@ -42,7 +49,7 @@
         /* Navigation */
         .navbar {
             background-color: var(--nav-bg);
-            padding: 1rem 0;
+            padding: 0.75rem 0;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
@@ -62,18 +69,43 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
+        }
+
+        .nav-links li {
+            position: relative;
         }
 
         .nav-links a {
             color: var(--text-color);
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.3s ease;
+            font-size: 1rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: block;
+            /* 添加透明边框防止抖动 */
+            border: 1px solid transparent;
         }
 
+        /* 修改后的玻璃效果 - 移除了scale变换 */
         .nav-links a:hover {
-            opacity: 0.7;
+            background: var(--nav-glass-bg);
+            backdrop-filter: blur(25px) saturate(150%);
+            -webkit-backdrop-filter: blur(25px) saturate(150%);
+            border: 1px solid var(--nav-glass-border);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                0 1px 4px rgba(255, 255, 255, 0.4) inset;
+            /* 移除了 transform: scale(1.02); */
+        }
+
+        [data-theme="dark"] .nav-links a:hover {
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.4),
+                0 1px 4px rgba(255, 255, 255, 0.1) inset;
         }
 
         /* Dark Mode Toggle */
@@ -91,6 +123,11 @@
             border-radius: 14px;
             position: relative;
             transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px;
+            overflow: hidden;
         }
 
         [data-theme="dark"] .toggle-container {
@@ -100,18 +137,87 @@
         .toggle-circle {
             width: 24px;
             height: 24px;
-            background-color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
             border-radius: 50%;
             position: absolute;
             top: 2px;
             left: 2px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.15),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
         }
 
         [data-theme="dark"] .toggle-circle {
-            transform: translateX(22px);
-            background-color: #f0f0f0;
+            transform: translateX(22px) scale(0.85);
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.3),
+                0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* iOS风格的图标设计 */
+        .toggle-circle::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9500 0%, #ffad33 100%);
+            box-shadow: 
+                0 0 0 1px rgba(255, 149, 0, 0.2),
+                0 0 6px rgba(255, 149, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        /* 太阳光线效果 */
+        .toggle-circle::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 0.5px solid rgba(255, 149, 0, 0.25);
+            animation: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* 暗色模式下的月亮效果 */
+        [data-theme="dark"] .toggle-circle::before {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
+            box-shadow: 
+                0 0 0 0.5px rgba(240, 244, 255, 0.3),
+                0 0 6px rgba(240, 244, 255, 0.5),
+                inset -2px -1px 0 rgba(200, 220, 255, 0.4),
+                inset 1px 1px 0 rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            position: relative;
+            transform: none;
+        }
+
+        [data-theme="dark"] .toggle-circle::after {
+            border-color: rgba(240, 244, 255, 0.2);
+            width: 12px;
+            height: 12px;
+            animation: moonGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes moonGlow {
+            0% { 
+                box-shadow: 0 0 4px rgba(240, 244, 255, 0.3);
+                opacity: 0.7;
+            }
+            100% { 
+                box-shadow: 0 0 8px rgba(240, 244, 255, 0.5);
+                opacity: 1;
+            }
         }
 
         /* Main Content */
@@ -133,7 +239,8 @@
         .intro-content h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            font-weight: 700;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
 
         .intro-content p {
@@ -148,19 +255,24 @@
             gap: 0.5rem;
         }
 
-        .contact-links a {
+        /* Global link styles for all content links */
+        .container a {
             color: var(--link-color);
             text-decoration: none;
-            font-weight: 500;
             transition: color 0.3s ease;
         }
 
-        .contact-links a:hover {
-            color: var(--link-hover);
+        .container a:hover {
+            color: var(--link-hover) !important;
         }
 
-        .contact-links a:visited {
+        .container a:visited {
             color: var(--link-visited);
+        }
+
+        /* Specific styles for contact links */
+        .contact-links a {
+            font-weight: 500;
         }
 
         .photo-placeholder {
@@ -184,6 +296,8 @@
         .section h2 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
         /* Research Section */
@@ -194,7 +308,7 @@
 
         .pub-title {
             font-size: 1.2rem;
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 0.5rem;
             line-height: 1.4;
         }
@@ -215,16 +329,7 @@
         }
 
         .pub-venue a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        .pub-venue a:hover {
-            color: var(--link-hover);
-        }
-
-        .pub-venue a:visited {
-            color: var(--link-visited);
+            /* Inherits from global .container a styles */
         }
 
         /* Talks and Links Sections */
@@ -244,16 +349,7 @@
         }
 
         .list-item a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        .list-item a:hover {
-            color: var(--link-hover);
-        }
-
-        .list-item a:visited {
-            color: var(--link-visited);
+            /* Inherits from global .container a styles */
         }
 
         /* Footer */
@@ -275,7 +371,7 @@
 
             .nav-links {
                 gap: 1rem;
-                font-size: 0.9rem;
+                font-size: 0.95rem;
             }
 
             .container {
@@ -344,25 +440,25 @@
             <div class="publication">
                 <div class="pub-title">Title of Your First Research Paper</div>
                 <div class="pub-authors">with Jane Smith, John Doe</div>
-                <div class="pub-venue"><span class="journal">Journal of Important Research</span>, 2024 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Journal of Important Research</span>, 2024 (<a href="https://arxiv.org/abs/2312.11805">arXiv</a>)</div>
             </div>
 
             <div class="publication">
                 <div class="pub-title">Another Significant Contribution to the Field</div>
                 <div class="pub-authors">with Alice Johnson, Bob Wilson, Carol Davis</div>
-                <div class="pub-venue"><span class="journal">Proceedings of Major Conference</span>, 2023 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Proceedings of Major Conference</span>, 2023 (<a href="https://arxiv.org/abs/2310.15707">arXiv</a>)</div>
             </div>
 
             <div class="publication">
                 <div class="pub-title">Innovative Methods in Your Research Area</div>
                 <div class="pub-authors">with Michael Brown</div>
-                <div class="pub-venue"><span class="journal">Top-tier Journal</span>, 2023 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Top-tier Journal</span>, 2023 (<a href="https://arxiv.org/abs/2309.17453">arXiv</a>)</div>
             </div>
 
             <div class="publication">
                 <div class="pub-title">Foundational Work in Related Field</div>
                 <div class="pub-authors">with Sarah Lee, David Chen, Emma Taylor</div>
-                <div class="pub-venue"><span class="journal">Annual Review of Your Field</span>, 2022 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Annual Review of Your Field</span>, 2022 (<a href="https://arxiv.org/abs/2208.07339">arXiv</a>)</div>
             </div>
         </section>
 
@@ -388,7 +484,7 @@
         </section>
 
         <footer class="footer">
-            <p>Last updated: January 2025</p>
+            <p>Last updated: <span id="last-updated"></span></p>
         </footer>
     </div>
 
@@ -399,13 +495,27 @@
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
             html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+            // Note: localStorage is not used in this artifact environment
+        }
+
+        // Update the last modified date dynamically
+        function updateLastModified() {
+            const lastUpdatedElement = document.getElementById('last-updated');
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long'
+            };
+            lastUpdatedElement.textContent = now.toLocaleDateString('en-US', options);
         }
 
         // Load saved theme or default to light mode
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
+            // Default to light theme in artifact environment
+            document.documentElement.setAttribute('data-theme', 'light');
+            
+            // Update the last modified date
+            updateLastModified();
         });
 
         // Smooth scrolling for navigation links
@@ -421,6 +531,10 @@
                 }
             });
         });
+
+        // Update last modified time whenever the page is interacted with
+        document.addEventListener('click', updateLastModified);
+        window.addEventListener('focus', updateLastModified);
     </script>
 </body>
 </html>
