@@ -19,8 +19,8 @@
             --link-visited: #8b008b;
             --border-color: #e0e0e0;
             --nav-bg: #f8f9fa;
-            --nav-glass-bg: rgba(248, 249, 250, 0.8);
-            --nav-glass-border: rgba(255, 255, 255, 0.2);
+            --nav-glass-bg: rgba(248, 249, 250, 0.3);
+            --nav-glass-border: rgba(255, 255, 255, 0.4);
         }
 
         [data-theme="dark"] {
@@ -31,8 +31,8 @@
             --link-visited: #c266c2;
             --border-color: #333333;
             --nav-bg: #2d2d2d;
-            --nav-glass-bg: rgba(45, 45, 45, 0.8);
-            --nav-glass-border: rgba(255, 255, 255, 0.1);
+            --nav-glass-bg: rgba(45, 45, 45, 0.3);
+            --nav-glass-border: rgba(255, 255, 255, 0.2);
         }
 
         body {
@@ -87,15 +87,14 @@
         /* Glassmorphism hover effect for navigation */
         .nav-links a:hover {
             background: var(--nav-glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--nav-glass-border);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transform: translateY(-1px);
         }
 
         [data-theme="dark"] .nav-links a:hover {
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
         /* Dark Mode Toggle */
@@ -113,6 +112,10 @@
             border-radius: 14px;
             position: relative;
             transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px 6px;
         }
 
         [data-theme="dark"] .toggle-container {
@@ -129,11 +132,48 @@
             left: 2px;
             transition: transform 0.3s ease;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            z-index: 2;
         }
 
         [data-theme="dark"] .toggle-circle {
             transform: translateX(22px);
             background-color: #f0f0f0;
+        }
+
+        .toggle-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            pointer-events: none;
+        }
+
+        .sun-icon, .moon-icon {
+            font-size: 12px;
+            transition: opacity 0.3s ease;
+        }
+
+        .sun-icon {
+            opacity: 1;
+        }
+
+        .moon-icon {
+            opacity: 0.3;
+        }
+
+        [data-theme="dark"] .sun-icon {
+            opacity: 0.3;
+        }
+
+        [data-theme="dark"] .moon-icon {
+            opacity: 1;
         }
 
         /* Main Content */
@@ -322,6 +362,10 @@
             </ul>
             <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
                 <div class="toggle-container">
+                    <div class="toggle-icons">
+                        <span class="sun-icon">☀️</span>
+                        <span class="moon-icon">🌙</span>
+                    </div>
                     <div class="toggle-circle"></div>
                 </div>
             </button>
@@ -351,25 +395,25 @@
             <div class="publication">
                 <div class="pub-title">Title of Your First Research Paper</div>
                 <div class="pub-authors">with Jane Smith, John Doe</div>
-                <div class="pub-venue"><span class="journal">Journal of Important Research</span>, 2024 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Journal of Important Research</span>, 2024 (<a href="https://arxiv.org/abs/2312.11805">arXiv</a>)</div>
             </div>
 
             <div class="publication">
                 <div class="pub-title">Another Significant Contribution to the Field</div>
                 <div class="pub-authors">with Alice Johnson, Bob Wilson, Carol Davis</div>
-                <div class="pub-venue"><span class="journal">Proceedings of Major Conference</span>, 2023 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Proceedings of Major Conference</span>, 2023 (<a href="https://arxiv.org/abs/2310.15707">arXiv</a>)</div>
             </div>
 
             <div class="publication">
                 <div class="pub-title">Innovative Methods in Your Research Area</div>
                 <div class="pub-authors">with Michael Brown</div>
-                <div class="pub-venue"><span class="journal">Top-tier Journal</span>, 2023 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Top-tier Journal</span>, 2023 (<a href="https://arxiv.org/abs/2309.17453">arXiv</a>)</div>
             </div>
 
             <div class="publication">
                 <div class="pub-title">Foundational Work in Related Field</div>
                 <div class="pub-authors">with Sarah Lee, David Chen, Emma Taylor</div>
-                <div class="pub-venue"><span class="journal">Annual Review of Your Field</span>, 2022 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+                <div class="pub-venue"><span class="journal">Annual Review of Your Field</span>, 2022 (<a href="https://arxiv.org/abs/2208.07339">arXiv</a>)</div>
             </div>
         </section>
 
