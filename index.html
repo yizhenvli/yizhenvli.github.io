@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Academic Homepage</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --link-color: #0066cc;
+            --link-hover: #ff8c00;
+            --link-visited: #8b008b;
+            --border-color: #e0e0e0;
+            --nav-bg: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --link-color: #4da6ff;
+            --link-hover: #ffb366;
+            --link-visited: #c266c2;
+            --border-color: #333333;
+            --nav-bg: #2d2d2d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: var(--nav-bg);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .toggle-container {
+            width: 50px;
+            height: 28px;
+            background-color: #e0e0e0;
+            border-radius: 14px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        [data-theme="dark"] .toggle-container {
+            background-color: #4a4a4a;
+        }
+
+        .toggle-circle {
+            width: 24px;
+            height: 24px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="dark"] .toggle-circle {
+            transform: translateX(22px);
+            background-color: #f0f0f0;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            align-items: start;
+        }
+
+        .intro-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .intro-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-links a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-links a:hover {
+            color: var(--link-hover);
+        }
+
+        .contact-links a:visited {
+            color: var(--link-visited);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            opacity: 0.5;
+            font-style: italic;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Research Section */
+        .publication {
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .pub-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .pub-authors {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .pub-venue {
+            font-size: 0.95rem;
+        }
+
+        .pub-venue .journal {
+            font-style: italic;
+        }
+
+        .pub-venue a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .pub-venue a:hover {
+            color: var(--link-hover);
+        }
+
+        .pub-venue a:visited {
+            color: var(--link-visited);
+        }
+
+        /* Talks and Links Sections */
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .list-item::before {
+            content: "•";
+            font-weight: bold;
+            margin-right: 1rem;
+            margin-top: 0.1rem;
+            flex-shrink: 0;
+        }
+
+        .list-item a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .list-item a:hover {
+            color: var(--link-hover);
+        }
+
+        .list-item a:visited {
+            color: var(--link-visited);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .intro-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .intro-content h1 {
+                font-size: 2rem;
+            }
+
+            .photo-placeholder {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#talks">Talks</a></li>
+                <li><a href="#links">Links</a></li>
+            </ul>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                <div class="toggle-container">
+                    <div class="toggle-circle"></div>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="intro-section" id="about">
+            <div class="intro-content">
+                <h1>Your Name</h1>
+                <p>
+                    Welcome to my academic homepage. I am a [Your Position] at [Your Institution], specializing in [Your Research Area]. My research focuses on [brief description of your research interests and expertise]. I am passionate about advancing our understanding of [specific topics] through innovative methodologies and collaborative research.
+                </p>
+                <div class="contact-links">
+                    <a href="path/to/your-cv.pdf" target="_blank">Download CV (PDF)</a>
+                    <a href="mailto:your.email@university.edu">your.email@university.edu</a>
+                </div>
+            </div>
+            <div class="photo-placeholder">
+                Your Photo Here
+            </div>
+        </section>
+
+        <section class="section" id="research">
+            <h2>Research</h2>
+            
+            <div class="publication">
+                <div class="pub-title">Title of Your First Research Paper</div>
+                <div class="pub-authors">with Jane Smith, John Doe</div>
+                <div class="pub-venue"><span class="journal">Journal of Important Research</span>, 2024 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+            </div>
+
+            <div class="publication">
+                <div class="pub-title">Another Significant Contribution to the Field</div>
+                <div class="pub-authors">with Alice Johnson, Bob Wilson, Carol Davis</div>
+                <div class="pub-venue"><span class="journal">Proceedings of Major Conference</span>, 2023 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+            </div>
+
+            <div class="publication">
+                <div class="pub-title">Innovative Methods in Your Research Area</div>
+                <div class="pub-authors">with Michael Brown</div>
+                <div class="pub-venue"><span class="journal">Top-tier Journal</span>, 2023 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+            </div>
+
+            <div class="publication">
+                <div class="pub-title">Foundational Work in Related Field</div>
+                <div class="pub-authors">with Sarah Lee, David Chen, Emma Taylor</div>
+                <div class="pub-venue"><span class="journal">Annual Review of Your Field</span>, 2022 (<a href="https://arxiv.org/abs/xxxx.xxxxx">arXiv</a>)</div>
+            </div>
+        </section>
+
+        <section class="section" id="talks">
+            <h2>Talks</h2>
+            
+            <div class="list-item">Keynote: "Future Directions in Your Research Area" - International Conference 2024</div>
+            <div class="list-item">Invited Talk: "Recent Advances in Methodology" - University Seminar Series 2024</div>
+            <div class="list-item">Conference Presentation: "Novel Approaches to Complex Problems" - Major Conference 2023</div>
+            <div class="list-item">Workshop: "Practical Applications of Your Research" - Summer School 2023</div>
+            <div class="list-item">Seminar: "Theoretical Foundations" - Department Colloquium 2023</div>
+        </section>
+
+        <section class="section" id="links">
+            <h2>Useful Links</h2>
+            
+            <div class="list-item"><a href="https://scholar.google.com/citations?user=YOUR_ID">Google Scholar Profile</a></div>
+            <div class="list-item"><a href="https://orcid.org/0000-0000-0000-0000">ORCID Profile</a></div>
+            <div class="list-item"><a href="https://github.com/yourusername">GitHub Repository</a></div>
+            <div class="list-item"><a href="https://your-institution.edu/department">Department Homepage</a></div>
+            <div class="list-item"><a href="https://arxiv.org/search/?searchtype=author&query=Your+Name">arXiv Papers</a></div>
+            <div class="list-item"><a href="https://twitter.com/yourusername">Twitter Profile</a></div>
+        </section>
+
+        <footer class="footer">
+            <p>Last updated: January 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme or default to light mode
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
