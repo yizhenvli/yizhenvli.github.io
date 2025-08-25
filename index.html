@@ -38,12 +38,42 @@
             --nav-glass-border: rgba(255, 255, 255, 0.3);
         }
 
+        /* 系统主题适应 */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #ffffff;
+                --link-color: #4da6ff;
+                --link-hover: #ffb366;
+                --link-visited: #c266c2;
+                --border-color: #333333;
+                --nav-bg: #2d2d2d;
+                --nav-glass-bg: rgba(45, 45, 45, 0.2);
+                --nav-glass-border: rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* 当用户手动设置了主题时，覆盖系统主题 */
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --link-color: #0066cc;
+            --link-hover: #ff8c00;
+            --link-visited: #8b008b;
+            --border-color: #e0e0e0;
+            --nav-bg: #f8f9fa;
+            --nav-glass-bg: rgba(248, 249, 250, 0.2);
+            --nav-glass-border: rgba(255, 255, 255, 0.6);
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Ubuntu, Roboto, Noto, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
             transition: background-color 0.3s ease, color 0.3s ease;
+            /* 使用相对字体大小，适应系统字号设置 */
+            font-size: 1rem;
         }
 
         /* Navigation */
@@ -58,7 +88,7 @@
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 75rem; /* 使用rem单位 */
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -80,32 +110,38 @@
             color: var(--text-color);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 1rem; /* 相对字体大小 */
             padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+            border-radius: 0.5rem; /* 使用rem单位 */
             transition: all 0.3s ease;
             position: relative;
             display: block;
-            /* 添加透明边框防止抖动 */
             border: 1px solid transparent;
         }
 
-        /* 修改后的玻璃效果 - 移除了scale变换 */
         .nav-links a:hover {
             background: var(--nav-glass-bg);
             backdrop-filter: blur(25px) saturate(150%);
             -webkit-backdrop-filter: blur(25px) saturate(150%);
             border: 1px solid var(--nav-glass-border);
             box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.1),
-                0 1px 4px rgba(255, 255, 255, 0.4) inset;
-            /* 移除了 transform: scale(1.02); */
+                0 0.25rem 1rem rgba(0, 0, 0, 0.1),
+                0 0.0625rem 0.25rem rgba(255, 255, 255, 0.4) inset;
         }
 
         [data-theme="dark"] .nav-links a:hover {
             box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.4),
-                0 1px 4px rgba(255, 255, 255, 0.1) inset;
+                0 0.25rem 1rem rgba(0, 0, 0, 0.4),
+                0 0.0625rem 0.25rem rgba(255, 255, 255, 0.1) inset;
+        }
+
+        /* 系统暗色模式下的悬停效果 */
+        @media (prefers-color-scheme: dark) {
+            .nav-links a:hover {
+                box-shadow: 
+                    0 0.25rem 1rem rgba(0, 0, 0, 0.4),
+                    0 0.0625rem 0.25rem rgba(255, 255, 255, 0.1) inset;
+            }
         }
 
         /* Dark Mode Toggle */
@@ -117,16 +153,16 @@
         }
 
         .toggle-container {
-            width: 50px;
-            height: 28px;
+            width: 3.125rem; /* 50px -> rem */
+            height: 1.75rem;  /* 28px -> rem */
             background-color: #e0e0e0;
-            border-radius: 14px;
+            border-radius: 0.875rem; /* 14px -> rem */
             position: relative;
             transition: background-color 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 2px;
+            padding: 0.125rem; /* 2px -> rem */
             overflow: hidden;
         }
 
@@ -134,18 +170,24 @@
             background-color: #4a4a4a;
         }
 
+        @media (prefers-color-scheme: dark) {
+            .toggle-container {
+                background-color: #4a4a4a;
+            }
+        }
+
         .toggle-circle {
-            width: 24px;
-            height: 24px;
+            width: 1.5rem;  /* 24px -> rem */
+            height: 1.5rem; /* 24px -> rem */
             background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
             border-radius: 50%;
             position: absolute;
-            top: 2px;
-            left: 2px;
+            top: 0.125rem;  /* 2px -> rem */
+            left: 0.125rem; /* 2px -> rem */
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.15),
-                0 1px 3px rgba(0, 0, 0, 0.1);
+                0 0.125rem 0.5rem rgba(0, 0, 0, 0.15),
+                0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -153,50 +195,57 @@
         }
 
         [data-theme="dark"] .toggle-circle {
-            transform: translateX(22px) scale(0.85);
+            transform: translateX(1.375rem) scale(0.85); /* 22px -> rem */
             background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
             box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.3),
-                0 1px 3px rgba(0, 0, 0, 0.2);
+                0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+                0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2);
         }
 
-        /* iOS风格的图标设计 */
+        @media (prefers-color-scheme: dark) {
+            .toggle-circle {
+                transform: translateX(1.375rem) scale(0.85);
+                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+                box-shadow: 
+                    0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
+                    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2);
+            }
+        }
+
         .toggle-circle::before {
             content: "";
-            width: 10px;
-            height: 10px;
+            width: 0.625rem;  /* 10px -> rem */
+            height: 0.625rem; /* 10px -> rem */
             border-radius: 50%;
             background: linear-gradient(135deg, #ff9500 0%, #ffad33 100%);
             box-shadow: 
-                0 0 0 1px rgba(255, 149, 0, 0.2),
-                0 0 6px rgba(255, 149, 0, 0.3),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+                0 0 0 0.0625rem rgba(255, 149, 0, 0.2),
+                0 0 0.375rem rgba(255, 149, 0, 0.3),
+                inset 0 0.0625rem 0.125rem rgba(255, 255, 255, 0.3);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
 
-        /* 太阳光线效果 */
         .toggle-circle::after {
             content: "";
             position: absolute;
-            width: 14px;
-            height: 14px;
+            width: 0.875rem;  /* 14px -> rem */
+            height: 0.875rem; /* 14px -> rem */
             border-radius: 50%;
-            border: 0.5px solid rgba(255, 149, 0, 0.25);
+            border: 0.03125rem solid rgba(255, 149, 0, 0.25);
             animation: none;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* 暗色模式下的月亮效果 */
         [data-theme="dark"] .toggle-circle::before {
-            width: 8px;
-            height: 8px;
+            width: 0.5rem;   /* 8px -> rem */
+            height: 0.5rem;  /* 8px -> rem */
             background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
             box-shadow: 
-                0 0 0 0.5px rgba(240, 244, 255, 0.3),
-                0 0 6px rgba(240, 244, 255, 0.5),
-                inset -2px -1px 0 rgba(200, 220, 255, 0.4),
-                inset 1px 1px 0 rgba(255, 255, 255, 0.2);
+                0 0 0 0.03125rem rgba(240, 244, 255, 0.3),
+                0 0 0.375rem rgba(240, 244, 255, 0.5),
+                inset -0.125rem -0.0625rem 0 rgba(200, 220, 255, 0.4),
+                inset 0.0625rem 0.0625rem 0 rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             position: relative;
             transform: none;
@@ -204,25 +253,48 @@
 
         [data-theme="dark"] .toggle-circle::after {
             border-color: rgba(240, 244, 255, 0.2);
-            width: 12px;
-            height: 12px;
+            width: 0.75rem;   /* 12px -> rem */
+            height: 0.75rem;  /* 12px -> rem */
             animation: moonGlow 3s ease-in-out infinite alternate;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .toggle-circle::before {
+                width: 0.5rem;
+                height: 0.5rem;
+                background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
+                box-shadow: 
+                    0 0 0 0.03125rem rgba(240, 244, 255, 0.3),
+                    0 0 0.375rem rgba(240, 244, 255, 0.5),
+                    inset -0.125rem -0.0625rem 0 rgba(200, 220, 255, 0.4),
+                    inset 0.0625rem 0.0625rem 0 rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                position: relative;
+                transform: none;
+            }
+            
+            .toggle-circle::after {
+                border-color: rgba(240, 244, 255, 0.2);
+                width: 0.75rem;
+                height: 0.75rem;
+                animation: moonGlow 3s ease-in-out infinite alternate;
+            }
         }
 
         @keyframes moonGlow {
             0% { 
-                box-shadow: 0 0 4px rgba(240, 244, 255, 0.3);
+                box-shadow: 0 0 0.25rem rgba(240, 244, 255, 0.3);
                 opacity: 0.7;
             }
             100% { 
-                box-shadow: 0 0 8px rgba(240, 244, 255, 0.5);
+                box-shadow: 0 0 0.5rem rgba(240, 244, 255, 0.5);
                 opacity: 1;
             }
         }
 
         /* Main Content */
         .container {
-            max-width: 1200px;
+            max-width: 75rem; /* 1200px -> rem */
             margin: 0 auto;
             padding: 2.5rem 2rem;
         }
@@ -237,14 +309,14 @@
         }
 
         .intro-content h1 {
-            font-size: 2.5rem;
+            font-size: 2.5rem; /* 相对字体大小 */
             margin-bottom: 1rem;
             font-weight: 600;
             letter-spacing: -0.02em;
         }
 
         .intro-content p {
-            font-size: 1.1rem;
+            font-size: 1.1rem; /* 相对字体大小 */
             margin-bottom: 2rem;
             text-align: justify;
         }
@@ -277,9 +349,9 @@
 
         .photo-placeholder {
             width: 100%;
-            height: 300px;
+            height: 18.75rem; /* 300px -> rem */
             background-color: var(--border-color);
-            border-radius: 8px;
+            border-radius: 0.5rem; /* 8px -> rem */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -294,7 +366,7 @@
         }
 
         .section h2 {
-            font-size: 2rem;
+            font-size: 2rem; /* 相对字体大小 */
             margin-bottom: 1.5rem;
             font-weight: 600;
             letter-spacing: -0.01em;
@@ -307,7 +379,7 @@
         }
 
         .pub-title {
-            font-size: 1.2rem;
+            font-size: 1.2rem; /* 相对字体大小 */
             font-weight: 500;
             margin-bottom: 0.5rem;
             line-height: 1.4;
@@ -321,15 +393,11 @@
         }
 
         .pub-venue {
-            font-size: 0.95rem;
+            font-size: 0.95rem; /* 相对字体大小 */
         }
 
         .pub-venue .journal {
             font-style: italic;
-        }
-
-        .pub-venue a {
-            /* Inherits from global .container a styles */
         }
 
         /* Talks and Links Sections */
@@ -348,21 +416,17 @@
             flex-shrink: 0;
         }
 
-        .list-item a {
-            /* Inherits from global .container a styles */
-        }
-
         /* Footer */
         .footer {
             margin-top: 3rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--border-color);
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* 相对字体大小 */
             opacity: 0.7;
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 48rem) { /* 768px -> rem */
             .nav-container {
                 padding: 0 1rem;
                 flex-wrap: wrap;
@@ -388,14 +452,42 @@
             }
 
             .photo-placeholder {
-                height: 250px;
+                height: 15.625rem; /* 250px -> rem */
             }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 30rem) { /* 480px -> rem */
             .nav-links {
                 flex-wrap: wrap;
                 justify-content: center;
+            }
+        }
+
+        /* 系统字体大小适应 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* 高对比度模式支持 */
+        @media (prefers-contrast: high) {
+            :root {
+                --link-color: #0000ee;
+                --link-hover: #cc0000;
+                --link-visited: #800080;
+                --border-color: #000000;
+            }
+        }
+
+        /* 透明度降低模式支持 */
+        @media (prefers-reduced-transparency: reduce) {
+            .nav-links a:hover {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                background: var(--nav-bg);
             }
         }
     </style>
@@ -492,13 +584,20 @@
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            html.setAttribute('data-theme', newTheme);
-            // Note: localStorage is not used in this artifact environment
+            if (currentTheme === 'light') {
+                html.setAttribute('data-theme', 'dark');
+            } else if (currentTheme === 'dark') {
+                // 移除手动设置，回到系统主题
+                html.removeAttribute('data-theme');
+            } else {
+                // 当前是系统主题，设置为相反的主题
+                const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                html.setAttribute('data-theme', isSystemDark ? 'light' : 'dark');
+            }
         }
 
-        // Update the last modified date dynamically
+        // 更新最后修改日期
         function updateLastModified() {
             const lastUpdatedElement = document.getElementById('last-updated');
             const now = new Date();
@@ -509,16 +608,16 @@
             lastUpdatedElement.textContent = now.toLocaleDateString('en-US', options);
         }
 
-        // Load saved theme or default to light mode
+        // 页面加载时的初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // Default to light theme in artifact environment
-            document.documentElement.setAttribute('data-theme', 'light');
+            // 监听系统主题变化
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             
-            // Update the last modified date
+            // 更新最后修改日期
             updateLastModified();
         });
 
-        // Smooth scrolling for navigation links
+        // 平滑滚动导航链接
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -532,7 +631,7 @@
             });
         });
 
-        // Update last modified time whenever the page is interacted with
+        // 页面交互时更新最后修改时间
         document.addEventListener('click', updateLastModified);
         window.addEventListener('focus', updateLastModified);
     </script>
