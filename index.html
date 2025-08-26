@@ -26,23 +26,8 @@
             --nav-glass-border: rgba(255, 255, 255, 0.6);
         }
 
-        /* 系统主题适应 - 只在没有手动设置时生效 */
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) {
-                --bg-color: #1a1a1a;
-                --text-color: #ffffff;
-                --link-color: #4da6ff;
-                --link-hover: #ffb366;
-                --link-visited: #c266c2;
-                --border-color: #333333;
-                --nav-bg: #2d2d2d;
-                --nav-glass-bg: rgba(45, 45, 45, 0.2);
-                --nav-glass-border: rgba(255, 255, 255, 0.3);
-            }
-        }
-
-        /* 手动设置亮色主题 */
-        [data-theme="light"] {
+        /* 默认亮色主题变量 */
+        :root {
             --bg-color: #ffffff;
             --text-color: #000000;
             --link-color: #0066cc;
@@ -54,8 +39,8 @@
             --nav-glass-border: rgba(255, 255, 255, 0.6);
         }
 
-        /* 手动设置暗色主题 */
-        [data-theme="dark"] {
+        /* 暗色主题变量 */
+        .dark-theme {
             --bg-color: #1a1a1a;
             --text-color: #ffffff;
             --link-color: #4da6ff;
@@ -130,19 +115,10 @@
         }
 
         /* 暗色主题下的悬停效果 */
-        [data-theme="dark"] .nav-links a:hover,
-        :root:not([data-theme]) .nav-links a:hover {
+        .dark-theme .nav-links a:hover {
             box-shadow: 
                 0 0.25rem 1rem rgba(0, 0, 0, 0.4),
                 0 0.0625rem 0.25rem rgba(255, 255, 255, 0.1) inset;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) .nav-links a:hover {
-                box-shadow: 
-                    0 0.25rem 1rem rgba(0, 0, 0, 0.4),
-                    0 0.0625rem 0.25rem rgba(255, 255, 255, 0.1) inset;
-            }
         }
 
         /* Dark Mode Toggle */
@@ -167,18 +143,26 @@
             overflow: hidden;
         }
 
-        /* 暗色模式下的切换器背景 */
-        [data-theme="dark"] .toggle-container,
-        :root:not([data-theme]) .toggle-container {
+        /* 切换器容器 */
+        .toggle-container {
+            width: 3.125rem;
+            height: 1.75rem;
+            background-color: #e0e0e0;
+            border-radius: 0.875rem;
+            position: relative;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.125rem;
+            overflow: hidden;
+        }
+
+        .dark-theme .toggle-container {
             background-color: #4a4a4a;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) .toggle-container {
-                background-color: #4a4a4a;
-            }
-        }
-
+        /* 切换器圆圈 - 默认在左侧 (亮色模式，显示太阳) */
         .toggle-circle {
             width: 1.5rem;
             height: 1.5rem;
@@ -197,9 +181,8 @@
             z-index: 2;
         }
 
-        /* 暗色模式下的切换圆圈 */
-        [data-theme="dark"] .toggle-circle,
-        :root:not([data-theme]) .toggle-circle {
+        /* 暗色模式下圆圈移到右侧 */
+        .dark-theme .toggle-circle {
             transform: translateX(1.375rem) scale(0.85);
             background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
             box-shadow: 
@@ -207,26 +190,7 @@
                 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2);
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) .toggle-circle {
-                transform: translateX(1.375rem) scale(0.85);
-                background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-                box-shadow: 
-                    0 0.125rem 0.5rem rgba(0, 0, 0, 0.3),
-                    0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.2);
-            }
-        }
-
-        /* 但是手动设置亮色主题时，覆盖上面的样式 */
-        [data-theme="light"] .toggle-circle {
-            transform: translateX(0) scale(1) !important;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%) !important;
-            box-shadow: 
-                0 0.125rem 0.5rem rgba(0, 0, 0, 0.15),
-                0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1) !important;
-        }
-
-        /* 太阳图标 (亮色模式) */
+        /* 太阳图标 - 默认显示 (亮色模式) */
         .toggle-circle::before {
             content: "";
             width: 0.625rem;
@@ -248,13 +212,11 @@
             height: 0.875rem;
             border-radius: 50%;
             border: 0.03125rem solid rgba(255, 149, 0, 0.25);
-            animation: none;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* 月亮图标 (暗色模式) */
-        [data-theme="dark"] .toggle-circle::before,
-        :root:not([data-theme]) .toggle-circle::before {
+        /* 月亮图标 - 暗色模式下显示 */
+        .dark-theme .toggle-circle::before {
             width: 0.5rem;
             height: 0.5rem;
             background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
@@ -263,61 +225,13 @@
                 0 0 0.375rem rgba(240, 244, 255, 0.5),
                 inset -0.125rem -0.0625rem 0 rgba(200, 220, 255, 0.4),
                 inset 0.0625rem 0.0625rem 0 rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            position: relative;
-            transform: none;
         }
 
-        [data-theme="dark"] .toggle-circle::after,
-        :root:not([data-theme]) .toggle-circle::after {
+        .dark-theme .toggle-circle::after {
             border-color: rgba(240, 244, 255, 0.2);
             width: 0.75rem;
             height: 0.75rem;
             animation: moonGlow 3s ease-in-out infinite alternate;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme]) .toggle-circle::before {
-                width: 0.5rem;
-                height: 0.5rem;
-                background: linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%);
-                box-shadow: 
-                    0 0 0 0.03125rem rgba(240, 244, 255, 0.3),
-                    0 0 0.375rem rgba(240, 244, 255, 0.5),
-                    inset -0.125rem -0.0625rem 0 rgba(200, 220, 255, 0.4),
-                    inset 0.0625rem 0.0625rem 0 rgba(255, 255, 255, 0.2);
-                border-radius: 50%;
-                position: relative;
-                transform: none;
-            }
-            
-            :root:not([data-theme]) .toggle-circle::after {
-                border-color: rgba(240, 244, 255, 0.2);
-                width: 0.75rem;
-                height: 0.75rem;
-                animation: moonGlow 3s ease-in-out infinite alternate;
-            }
-        }
-
-        /* 手动设置亮色主题时，强制显示太阳图标 */
-        [data-theme="light"] .toggle-circle::before {
-            width: 0.625rem !important;
-            height: 0.625rem !important;
-            background: linear-gradient(135deg, #ff9500 0%, #ffad33 100%) !important;
-            box-shadow: 
-                0 0 0 0.0625rem rgba(255, 149, 0, 0.2),
-                0 0 0.375rem rgba(255, 149, 0, 0.3),
-                inset 0 0.0625rem 0.125rem rgba(255, 255, 255, 0.3) !important;
-            border-radius: 50%;
-            position: relative;
-            transform: none !important;
-        }
-
-        [data-theme="light"] .toggle-circle::after {
-            border-color: rgba(255, 149, 0, 0.25) !important;
-            width: 0.875rem !important;
-            height: 0.875rem !important;
-            animation: none !important;
         }
 
         @keyframes moonGlow {
@@ -620,22 +534,82 @@
     </div>
 
     <script>
+        // 主题管理类
+        class ThemeManager {
+            constructor() {
+                this.body = document.body;
+                this.init();
+            }
+
+            init() {
+                // 检查系统主题偏好
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                // 根据系统主题设置初始主题
+                if (prefersDark) {
+                    this.setDarkTheme();
+                } else {
+                    this.setLightTheme();
+                }
+
+                // 监听系统主题变化
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                    // 只有在没有用户手动设置时才跟随系统主题
+                    if (!this.body.hasAttribute('data-user-theme')) {
+                        if (e.matches) {
+                            this.setDarkTheme();
+                        } else {
+                            this.setLightTheme();
+                        }
+                    }
+                });
+            }
+
+            setLightTheme() {
+                this.body.classList.remove('dark-theme');
+                // 不设置 data-user-theme 属性，表示跟随系统
+            }
+
+            setDarkTheme() {
+                this.body.classList.add('dark-theme');
+                // 不设置 data-user-theme 属性，表示跟随系统
+            }
+
+            setUserLightTheme() {
+                this.body.classList.remove('dark-theme');
+                this.body.setAttribute('data-user-theme', 'light');
+            }
+
+            setUserDarkTheme() {
+                this.body.classList.add('dark-theme');
+                this.body.setAttribute('data-user-theme', 'dark');
+            }
+
+            isDarkMode() {
+                return this.body.classList.contains('dark-theme');
+            }
+
+            isUserSet() {
+                return this.body.hasAttribute('data-user-theme');
+            }
+
+            toggle() {
+                if (this.isDarkMode()) {
+                    // 当前是暗色，切换到亮色
+                    this.setUserLightTheme();
+                } else {
+                    // 当前是亮色，切换到暗色
+                    this.setUserDarkTheme();
+                }
+            }
+        }
+
+        // 初始化主题管理器
+        let themeManager;
+
         function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            
-            // 检查当前系统主题
-            const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (currentTheme === 'light') {
-                // 从手动亮色切换到暗色
-                html.setAttribute('data-theme', 'dark');
-            } else if (currentTheme === 'dark') {
-                // 从手动暗色切换到亮色
-                html.setAttribute('data-theme', 'light');
-            } else {
-                // 当前是系统主题，切换到相反的手动主题
-                html.setAttribute('data-theme', isSystemDark ? 'light' : 'dark');
+            if (themeManager) {
+                themeManager.toggle();
             }
         }
 
@@ -652,6 +626,9 @@
 
         // 页面加载时的初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化主题管理器
+            themeManager = new ThemeManager();
+            
             // 更新最后修改日期
             updateLastModified();
         });
