@@ -1,2 +1,2 @@
 # Yizhen Li Personal Site
-https://yizhenli.github.io/
+https://yizhenvli.github.io/
