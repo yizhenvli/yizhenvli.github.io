@@ -522,7 +522,7 @@
         </section>
 
         <footer class="footer">
-            <p>Last updated: <span id="last-updated"></span></p>
+            <p>Last updated: March 2026</p>
         </footer>
     </div>
 
@@ -606,24 +606,10 @@
             }
         }
 
-        // 更新最后修改日期
-        function updateLastModified() {
-            const lastUpdatedElement = document.getElementById('last-updated');
-            const now = new Date();
-            const options = { 
-                year: 'numeric', 
-                month: 'long'
-            };
-            lastUpdatedElement.textContent = now.toLocaleDateString('en-US', options);
-        }
-
         // 页面加载时的初始化
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化主题管理器
             themeManager = new ThemeManager();
-            
-            // 更新最后修改日期
-            updateLastModified();
         });
 
         // 平滑滚动导航链接
@@ -639,10 +625,6 @@
                 }
             });
         });
-
-        // 页面交互时更新最后修改时间
-        document.addEventListener('click', updateLastModified);
-        window.addEventListener('focus', updateLastModified);
     </script>
 </body>
 </html>
