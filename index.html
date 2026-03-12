@@ -481,7 +481,7 @@
                 </p>
             </div>
            <figure style="margin: 0;">
-  <img src="webb.jpeg" alt="Photo of Yizhen Li"
+  <img id="profile-photo" src="web.jpeg" alt="Photo of Yizhen Li"
        style="width: 100%; height: 100%; object-fit: cover; border-radius: 0.5rem;">
 </figure>
         </section>
@@ -529,7 +529,16 @@
         class ThemeManager {
             constructor() {
                 this.body = document.body;
+                this.lightPhoto = 'web.jpeg';
+                this.darkPhoto = 'webb.jpeg';
                 this.init();
+            }
+
+            updatePhoto() {
+                const photo = document.getElementById('profile-photo');
+                if (photo) {
+                    photo.src = this.isDarkMode() ? this.darkPhoto : this.lightPhoto;
+                }
             }
 
             init() {
@@ -559,21 +568,25 @@
             setLightTheme() {
                 this.body.classList.remove('dark-theme');
                 // 不设置 data-user-theme 属性，表示跟随系统
+                this.updatePhoto();
             }
 
             setDarkTheme() {
                 this.body.classList.add('dark-theme');
                 // 不设置 data-user-theme 属性，表示跟随系统
+                this.updatePhoto();
             }
 
             setUserLightTheme() {
                 this.body.classList.remove('dark-theme');
                 this.body.setAttribute('data-user-theme', 'light');
+                this.updatePhoto();
             }
 
             setUserDarkTheme() {
                 this.body.classList.add('dark-theme');
                 this.body.setAttribute('data-user-theme', 'dark');
+                this.updatePhoto();
             }
 
             isDarkMode() {
